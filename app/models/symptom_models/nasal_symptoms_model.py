@@ -3,7 +3,7 @@ from pydantic import BaseModel, Extra
 
 class NasalSymptoms(BaseModel):
     congestion: bool = False
-    runny_or_stuffy_nose: bool = False
+    runny_nose: bool = False
     loss_of_smell: bool = False
     sneezing: bool = False
 
