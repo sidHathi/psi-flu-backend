@@ -5,7 +5,8 @@ def userEntity(user) -> dict:
         "role": user["role"],
         "password": user["password"],
         "created_at": user["created_at"],
-        "updated_at": user["updated_at"]
+        "updated_at": user["updated_at"],
+        "symptoms": user["symptoms"],
     }
 
 
@@ -15,7 +16,8 @@ def userResponseEntity(user) -> dict:
         "email": user["email"],
         "role": user["role"],
         "created_at": user["created_at"],
-        "updated_at": user["updated_at"]
+        "updated_at": user["updated_at"],
+        "symptoms": user["symptoms"],
     }
 
 

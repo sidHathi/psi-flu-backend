@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from config import settings
-from routers import auth, user
+from routers import auth_router, users_router
 from fastapi.middleware.cors import CORSMiddleware
 
 import pymongo
@@ -42,8 +42,14 @@ def startup_db_client():
     )
     app.db: Database = app.mongodb_client[settings.DB_NAME]
 
-app.include_router(auth.router, tags=['Auth'], prefix='/api/auth')
-app.include_router(user.router, tags=['Users'], prefix='/api/users')
+
+@app.on_event("shutdown")
+def shutdown_db_client():
+    app.mongodb_client.close()
+    
+
+app.include_router(auth_router.router, tags=['Auth'], prefix='/api/auth')
+app.include_router(users_router.router, tags=['Users'], prefix='/api/users')
 
 @app.get("/")
 def root():

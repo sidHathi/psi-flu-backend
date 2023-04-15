@@ -5,7 +5,7 @@ from fastapi import APIRouter, Response, status, Depends, HTTPException
 import oauth2
 from database import User
 from serializers.userSerializers import userEntity, userResponseEntity
-from models import user_schemas as schemas
+from models import user_models as schemas
 import utils
 from oauth2 import AuthJWT
 from config import settings
