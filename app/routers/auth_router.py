@@ -70,7 +70,7 @@ def login(payload: schemas.LoginUserSchema, response: Response, Authorize: AuthJ
                         ACCESS_TOKEN_EXPIRES_IN * 60, '/', None, False, False, 'lax')
 
     # Send both access
-    return {'status': 'success', 'access_token': access_token}
+    return {'status': 'success', 'access_token': access_token, 'refresh_token': refresh_token}
 
 
 # [...] refresh token

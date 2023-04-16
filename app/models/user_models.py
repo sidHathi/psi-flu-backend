@@ -8,7 +8,7 @@ class User(BaseModel):
     role: str | None = None
     created_at: datetime | None = None
     updated_at: datetime | None = None
-    symptoms: Symptoms = Symptoms()
+    symptoms: Symptoms | None = Symptoms()
 
     class Config:
         orm_mode = True
