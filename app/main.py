@@ -50,7 +50,7 @@ def shutdown_db_client():
 
 app.include_router(auth_router.router, tags=['Auth'], prefix='/api/auth')
 app.include_router(users_router.router, tags=['Users'], prefix='/api/users')
-# app.include_router(aggregates_router.router, tags=['Aggregates'], prefix='api/aggregates')
+app.include_router(aggregates_router.router, tags=['Aggregates'], prefix='/api/aggregates')
 
 @app.get("/")
 def root():
