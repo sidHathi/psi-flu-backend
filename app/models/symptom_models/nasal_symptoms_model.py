@@ -9,6 +9,6 @@ class NasalSymptoms(BaseModel):
 
 class NasalSymptomsUpdate(BaseModel):
     congestion: Optional[bool]
-    runny_or_stuffy_nose: Optional[bool]
+    runny_nose: Optional[bool]
     loss_of_smell: Optional[bool]
     sneezing: Optional[bool]

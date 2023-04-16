@@ -1,12 +1,12 @@
 from typing import Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 class AbdominalSymptoms(BaseModel):
-    vomiting: bool = False
+    vomitting: bool = False
     diarrhea: bool = False
-    abdominal_pain: bool= False
+    abdominal_pain: bool = False
 
 class AbdominalSymptomsUpdate(BaseModel):
-    vomiting: Optional[bool]
+    vomitting: Optional[bool]
     diarrhea: Optional[bool]
     abdominal_pain: Optional[bool]

@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 
 class ChestSymptoms(BaseModel):
     cough: bool = False
