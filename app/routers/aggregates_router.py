@@ -4,6 +4,7 @@ from typing import List
 from config import settings
 from pymongo import MongoClient
 from models.aggregates_model import AggregateMetrics
+import json
 
 router = APIRouter()
 
@@ -16,12 +17,23 @@ router = APIRouter()
 #     symptom_counts: AggregateSymptomCounts = AggregateSymptomCounts()
 
 
-@router.get("/trending_symptoms", response_description="Get list of symptoms sorting by frequency in decreasing order", response_model=list)
+@router.get("/four_trending_symptoms", response_description="Get list of symptoms sorting by frequency in decreasing order")
 def get_symptoms_sorted_by_count_desc(request: Request, response: Response):
     client = MongoClient(settings.MONGO_URI)
     db = client[settings.DB_NAME]
+    
     if (symptoms := db["current_aggregates"].find_one({})["symptoms_sorted_by_count_desc"]) is not None:
-        return symptoms
+        res = []
+        res.append({"symptom": symptoms[0], "count": db["current_aggregates"].find_one({})["symptom_counts"][symptoms[0]]})
+        res.append({"symptom": symptoms[1], "count": db["current_aggregates"].find_one({})["symptom_counts"][symptoms[1]]})
+        res.append({"symptom": symptoms[2], "count": db["current_aggregates"].find_one({})["symptom_counts"][symptoms[2]]})
+        res.append({"symptom": symptoms[3], "count": db["current_aggregates"].find_one({})["symptom_counts"][symptoms[3]]})
+
+        print(res)
+
+        return json.dumps(res)
+
+    
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Cannot find trending symptoms")
 
 
