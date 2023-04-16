@@ -2,7 +2,7 @@ from fastapi import APIRouter, Body, Request, Response, HTTPException, status
 from fastapi.encoders import jsonable_encoder
 from typing import List
 from config import settings
-from pymongo import MongoClient
+from pymongo import MongoClient, DESCENDING
 from models.aggregates_model import AggregateMetrics
 import json
 
@@ -60,8 +60,7 @@ def get_number_of_new_infections(request: Request, response: Response):
     client = MongoClient(settings.MONGO_URI)
     db = client[settings.DB_NAME]
     collection = db["aggregates_by_week"]
-    id = collection.count_documents({})
-    if (count := collection.find_one({"_id": id})["new_infections_in_last_week"]) >= 0:
+    if (count := collection.find_one({"_id": id}, { "$sort": { "timestamp" : -1}})["new_infections_in_last_week"]) >= 0:
         return count
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Cannot find number of new infections in last week")
 
@@ -72,23 +71,9 @@ def get_infected_last_4_weeks(request: Request, response: Response):
     client = MongoClient(settings.MONGO_URI)
     db = client[settings.DB_NAME]
     collection = db["aggregates_by_week"]
-    id = collection.count_documents()
 
-    infection_counts = []
-
-    if (count := collection.find_one({"_id": id-3})["current_number_of_infections"]) >= 0:
-        infection_counts.append(collection.find_one({"_id": id-3})["current_number_of_infections"])
+    infection_counts = collection.find({}, sort=[("field_to_sort", DESCENDING)], batch_size=4)
     
-    if (count := collection.find_one({"_id": id-2})["current_number_of_infections"]) >= 0:
-        infection_counts.append(collection.find_one({"_id": id-2})["current_number_of_infections"])
-    
-    if (count := collection.find_one({"_id": id-1})["current_number_of_infections"]) >= 0:
-        infection_counts.append(collection.find_one({"_id": id-1})["current_number_of_infections"])
-    
-    if (count := collection.find_one({"_id": id})["current_number_of_infections"]) >= 0:
-        infection_counts.append(collection.find_one({"_id": id})["current_number_of_infections"])
-    
-    if (len(infection_counts) == 4):
-        return infection_counts
+    return infection_counts
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Cannot find infection counts from last 4 weeks")
