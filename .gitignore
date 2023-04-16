@@ -5,5 +5,5 @@ venv/*/*
 venv/**
 venv/
 */venv
-
+TO_SCRAP*
 *__pycache__

@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, Extra
+from pydantic import BaseModel
 from models.symptom_models.abdominal_symptoms_model import AbdominalSymptoms, AbdominalSymptomsUpdate
 from models.symptom_models.chest_symptoms_model import ChestSymptoms, ChestSymptomsUpdate
 from models.symptom_models.eye_symptoms_model import EyeSymptoms, EyeSymptomsUpdate

@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from bson.objectid import ObjectId
 from fastapi import APIRouter, Response, status, Depends, HTTPException
-
 import oauth2
 from database import User
 from serializers.userSerializers import userEntity, userResponseEntity
@@ -9,6 +8,8 @@ from models import user_models as schemas
 import utils
 from oauth2 import AuthJWT
 from config import settings
+from models.aggregates_model import AggregateMetrics
+from aggregate_metrics_functions import increment_user_count
 
 
 router = APIRouter()
@@ -36,6 +37,9 @@ async def create_user(payload: schemas.CreateUserSchema):
     payload.updated_at = payload.created_at
     result = User.insert_one(payload.dict())
     new_user = userResponseEntity(User.find_one({'_id': result.inserted_id}))
+
+    # increment user count in current aggregates
+    increment_user_count(settings.MONGO_URI, settings.DB_NAME)
     return {"status": "success", "user": new_user}
 
 # [...] login user
