@@ -56,7 +56,7 @@ def update_user(request: Request, user: UserUpdate = Body(...), user_id: str = D
             decrement_number_of_infections(settings.MONGO_URI, settings.DB_NAME)
         elif not was_infected and is_infected:
             increment_number_of_infections(settings.MONGO_URI, settings.DB_NAME)
-            increment_number_of_infections(settings.MONGO_URI, settings.DB_NAME)
+            increment_new_infections_in_last_week(settings.MONGO_URI, settings.DB_NAME)
 
         
         # update data in user collection
