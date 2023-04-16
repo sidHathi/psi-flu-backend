@@ -82,9 +82,9 @@ def delete_user(request: Request, response: Response, user_id: str = Depends(oau
     db = client[settings.DB_NAME]
     user_symptoms = []
     was_infected = False
-    for symptom_type in db["users"].find_one({"_id": ObjectId(str(user_id))}):
-        for symptom in db["users"].find_one({"_id": ObjectId(str(user_id))})[symptom_type]:
-            if db["users"].find_one({"_id": ObjectId(str(user_id))})[symptom_type][symptom]:
+    for symptom_type in db["users"].find_one({"_id": ObjectId(str(user_id))})["symptoms"]:
+        for symptom in db["users"].find_one({"_id": ObjectId(str(user_id))})["symptoms"][symptom_type]:
+            if db["users"].find_one({"_id": ObjectId(str(user_id))})["symptoms"][symptom_type][symptom]:
                 was_infected = True
                 user_symptoms.append(symptom)
     

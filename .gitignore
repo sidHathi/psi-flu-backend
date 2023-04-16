@@ -7,3 +7,4 @@ venv/
 */venv
 TO_SCRAP*
 *__pycache__
+clearaggs.py
